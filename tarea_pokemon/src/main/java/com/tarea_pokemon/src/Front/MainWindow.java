@@ -1,9 +1,7 @@
 package com.tarea_pokemon.src.Front;
 
 import javax.swing.*;
-
 import com.tarea_pokemon.src.Logica.Pikachu;
-
 import java.awt.*;
 
 
@@ -113,6 +111,12 @@ public class MainWindow {
         boton3.addActionListener(e -> {
             texto.setText(pikachu.atacarPunioTrueno());
         });
+
+        boton5.addActionListener(e -> {
+            CambiarPokemonWindow selector = new CambiarPokemonWindow();
+                selector.setVisible(true);
+         });
+
 
         // Agregar al panel
         panel.add(boton1);
