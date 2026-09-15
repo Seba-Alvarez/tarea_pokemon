@@ -4,8 +4,13 @@ import javax.swing.*;
 import com.tarea_pokemon.src.Logica.Pikachu;
 import java.awt.*;
 
-
 public class MainWindow {
+
+    // Pokémon que está actualmente en combate
+    static String pokemonActual = "Pikachu";
+    static Image imagenPokemonActual;
+
+    static JPanel panel;
 
     public static void main(String[] args) {
 
@@ -15,32 +20,37 @@ public class MainWindow {
         ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel panel = new JPanel() {
+        // Cargar Pikachu al principio
+        imagenPokemonActual = new ImageIcon(
+            MainWindow.class.getResource(
+                "/com/tarea_pokemon/src/Front/images/sprites/pikachu.png"
+            )
+        ).getImage();
+
+        panel = new JPanel() {
 
             private Image background;
-            private Image pikachu;
             private Image enemy;
 
             {
                 background = new ImageIcon(
-                    getClass().getResource("/com/tarea_pokemon/src/Front/images/background/battle.png")
-                ).getImage();
-
-                pikachu = new ImageIcon(
-                    getClass().getResource("/com/tarea_pokemon/src/Front/images/sprites/pikachu.png")
+                    getClass().getResource(
+                        "/com/tarea_pokemon/src/Front/images/background/battle.png"
+                    )
                 ).getImage();
 
                 enemy = new ImageIcon(
-                    getClass().getResource("/com/tarea_pokemon/src/Front/images/sprites/substitute.png")
+                    getClass().getResource(
+                        "/com/tarea_pokemon/src/Front/images/sprites/substitute.png"
+                    )
                 ).getImage();
             }
-
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // 1. Fondo
+                // Fondo
                 g.drawImage(
                     background,
                     0, 0,
@@ -48,15 +58,16 @@ public class MainWindow {
                     this
                 );
 
-                // 2. Pikachu por encima del fondo
+                // Pokémon actual
                 g.drawImage(
-                    pikachu,
+                    imagenPokemonActual,
                     100, 149,
                     250, 250,
                     this
                 );
 
-                    g.drawImage(
+                // Enemigo
+                g.drawImage(
                     enemy,
                     600, 100,
                     300, 300,
@@ -98,7 +109,6 @@ public class MainWindow {
         JButton boton5 = new JButton("Cambiar Pokemon");
         boton5.setBounds(780, 450, 175, 50);
 
-
         // Acciones
         boton1.addActionListener(e -> {
             texto.setText(pikachu.atacarPlacaje());
@@ -113,10 +123,11 @@ public class MainWindow {
         });
 
         boton5.addActionListener(e -> {
-            CambiarPokemonWindow selector = new CambiarPokemonWindow();
-                selector.setVisible(true);
-         });
+            CambiarPokemonWindow selector =
+                new CambiarPokemonWindow();
 
+            selector.setVisible(true);
+        });
 
         // Agregar al panel
         panel.add(boton1);
@@ -131,5 +142,19 @@ public class MainWindow {
 
         ventana.setContentPane(panel);
         ventana.setVisible(true);
+    }
+
+
+    // Cambiar Pokémon
+    public static void cambiarPokemon(String nombre, String rutaImagen) {
+
+        pokemonActual = nombre;
+
+        imagenPokemonActual = new ImageIcon(
+            MainWindow.class.getResource(rutaImagen)
+        ).getImage();
+
+        // Actualizar la pantalla
+        panel.repaint();
     }
 }

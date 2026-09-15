@@ -4,6 +4,20 @@ import javax.swing.*;
 
 public class CambiarPokemonWindow extends JFrame {
 
+    String[] nombres = {
+        "Pikachu",
+        "Bulbasaur",
+        "Charmander",
+        "Squirtle"
+    };
+
+    String[] rutas = {
+        "/com/tarea_pokemon/src/Front/images/sprites/pikachu.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/bulbasaur.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/charmander.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/squirtle.png"
+    };
+
     public CambiarPokemonWindow() {
 
         setTitle("Cambiar Pokemon");
@@ -14,43 +28,44 @@ public class CambiarPokemonWindow extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
-        // Imagen que usamos por ahora
-        ImageIcon imagen = new ImageIcon(
-            getClass().getResource(
-                "/com/tarea_pokemon/src/Front/images/sprites/substitute.png"
-            )
-        );
+        int posicion = 0;
 
-        JLabel imagen1 = new JLabel(imagen);
-        imagen1.setBounds(50, 50, 200, 200);
+        for (int i = 0; i < nombres.length; i++) {
 
-        JButton botonPokemon1 = new JButton("Pokémon 1");
-        botonPokemon1.setBounds(50, 270, 200, 50);
+            // No mostrar el Pokémon que ya está en combate
+            if (nombres[i].equals(MainWindow.pokemonActual)) {
+                continue;
+            }
 
+            ImageIcon imagen = new ImageIcon(
+                getClass().getResource(rutas[i])
+            );
 
-        JLabel imagen2 = new JLabel(imagen);
-        imagen2.setBounds(300, 50, 200, 200);
+            JLabel labelImagen = new JLabel(imagen);
 
-        JButton botonPokemon2 = new JButton("Pokémon 4");
-        botonPokemon2.setBounds(300, 270, 200, 50);
+            int x = 50 + (posicion * 250);
 
+            labelImagen.setBounds(x, 50, 200, 200);
 
-        JLabel imagen3 = new JLabel(imagen);
-        imagen3.setBounds(550, 50, 200, 200);
+            JButton boton = new JButton(nombres[i]);
+            boton.setBounds(x, 270, 200, 50);
 
-        JButton botonPokemon3 = new JButton("Pokémon 7");
-        botonPokemon3.setBounds(550, 270, 200, 50);
+            // Guardamos los valores para el botón
+            String nombre = nombres[i];
+            String ruta = rutas[i];
 
+            boton.addActionListener(e -> {
 
-        // Agregar al panel
-        panel.add(imagen1);
-        panel.add(botonPokemon1);
+                MainWindow.cambiarPokemon(nombre, ruta);
 
-        panel.add(imagen2);
-        panel.add(botonPokemon2);
+                dispose();
+            });
 
-        panel.add(imagen3);
-        panel.add(botonPokemon3);
+            panel.add(labelImagen);
+            panel.add(boton);
+
+            posicion++;
+        }
 
         setContentPane(panel);
     }
