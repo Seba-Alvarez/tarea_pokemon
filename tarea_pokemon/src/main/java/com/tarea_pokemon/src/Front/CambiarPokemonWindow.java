@@ -11,7 +11,14 @@ public class CambiarPokemonWindow extends JFrame {
         "Squirtle"
     };
 
-    String[] rutas = {
+    String[] rutasSeleccion = {
+        "/com/tarea_pokemon/src/Front/images/sprites/pikachu_front.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/bulbasaur_front.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/charmander_front.png",
+        "/com/tarea_pokemon/src/Front/images/sprites/squirtle_front.png"
+    };
+
+    String[] rutasCombate = {
         "/com/tarea_pokemon/src/Front/images/sprites/pikachu.png",
         "/com/tarea_pokemon/src/Front/images/sprites/bulbasaur.png",
         "/com/tarea_pokemon/src/Front/images/sprites/charmander.png",
@@ -32,13 +39,12 @@ public class CambiarPokemonWindow extends JFrame {
 
         for (int i = 0; i < nombres.length; i++) {
 
-            // No mostrar el Pokémon que ya está en combate
             if (nombres[i].equals(MainWindow.pokemonActual)) {
                 continue;
             }
 
             ImageIcon imagen = new ImageIcon(
-                getClass().getResource(rutas[i])
+                getClass().getResource(rutasSeleccion[i])
             );
 
             JLabel labelImagen = new JLabel(imagen);
@@ -50,9 +56,8 @@ public class CambiarPokemonWindow extends JFrame {
             JButton boton = new JButton(nombres[i]);
             boton.setBounds(x, 270, 200, 50);
 
-            // Guardamos los valores para el botón
             String nombre = nombres[i];
-            String ruta = rutas[i];
+            String ruta = rutasCombate[i];
 
             boton.addActionListener(e -> {
 
