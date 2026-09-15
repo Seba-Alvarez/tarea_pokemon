@@ -1,16 +1,28 @@
 package com.tarea_pokemon.src.Front;
 
 import javax.swing.*;
+
 import com.tarea_pokemon.src.Logica.Pikachu;
+import com.tarea_pokemon.src.Logica.Bulbasaur;
+import com.tarea_pokemon.src.Logica.Charmander;
+import com.tarea_pokemon.src.Logica.Squirtle;
+import com.tarea_pokemon.src.Logica.Pokemon;
+
 import java.awt.*;
 
 public class MainWindow {
 
-    // Pokémon que está actualmente en combate
     static String pokemonActual = "Pikachu";
     static Image imagenPokemonActual;
 
     static JPanel panel;
+
+    static JButton boton1;
+    static JButton boton2;
+    static JButton boton3;
+    static JButton boton4;
+
+    static Pokemon pokemon;
 
     public static void main(String[] args) {
 
@@ -20,12 +32,13 @@ public class MainWindow {
         ventana.setLocationRelativeTo(null);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Cargar Pikachu al principio
         imagenPokemonActual = new ImageIcon(
             MainWindow.class.getResource(
                 "/com/tarea_pokemon/src/Front/images/sprites/pikachu.png"
             )
         ).getImage();
+
+        pokemon = new Pikachu();
 
         panel = new JPanel() {
 
@@ -50,7 +63,6 @@ public class MainWindow {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                // Fondo
                 g.drawImage(
                     background,
                     0, 0,
@@ -58,7 +70,6 @@ public class MainWindow {
                     this
                 );
 
-                // Pokémon actual
                 g.drawImage(
                     imagenPokemonActual,
                     100, 149,
@@ -66,7 +77,6 @@ public class MainWindow {
                     this
                 );
 
-                // Enemigo
                 g.drawImage(
                     enemy,
                     600, 100,
@@ -88,48 +98,94 @@ public class MainWindow {
         nivel.setFont(new Font("Arial", Font.BOLD, 24));
         nivel.setBounds(285, 40, 200, 40);
 
-        Pikachu pikachu = new Pikachu();
-
         JTextArea texto = new JTextArea();
         texto.setEditable(false);
         texto.setBounds(460, 425, 300, 105);
 
-        JButton boton1 = new JButton("Placaje");
+        boton1 = new JButton("Placaje");
         boton1.setBounds(80, 425, 175, 50);
 
-        JButton boton2 = new JButton("Impactrueno");
+        boton2 = new JButton("Impactrueno");
         boton2.setBounds(260, 425, 175, 50);
 
-        JButton boton3 = new JButton("Puño Trueno");
+        boton3 = new JButton("Puño Trueno");
         boton3.setBounds(80, 480, 175, 50);
 
-        JButton boton4 = new JButton("-");
+        boton4 = new JButton("-");
         boton4.setBounds(260, 480, 175, 50);
 
         JButton boton5 = new JButton("Cambiar Pokemon");
         boton5.setBounds(780, 450, 175, 50);
 
-        // Acciones
         boton1.addActionListener(e -> {
-            texto.setText(pikachu.atacarPlacaje());
+
+            if (pokemonActual.equals("Pikachu")) {
+                texto.setText(((Pikachu) pokemon).atacarPlacaje());
+
+            } else if (pokemonActual.equals("Bulbasaur")) {
+                texto.setText(((Bulbasaur) pokemon).atacarPlacaje());
+
+            } else if (pokemonActual.equals("Charmander")) {
+                texto.setText(((Charmander) pokemon).atacarAraniazo());
+
+            } else if (pokemonActual.equals("Squirtle")) {
+                texto.setText(((Squirtle) pokemon).atacarMordisco());
+            }
         });
 
         boton2.addActionListener(e -> {
-            texto.setText(pikachu.atacarImpactrueno());
+
+            if (pokemonActual.equals("Pikachu")) {
+                texto.setText(((Pikachu) pokemon).atacarImpactrueno());
+
+            } else if (pokemonActual.equals("Bulbasaur")) {
+                texto.setText(((Bulbasaur) pokemon).atacarDrenaje());
+
+            } else if (pokemonActual.equals("Charmander")) {
+                texto.setText(((Charmander) pokemon).atacarAscuas());
+
+            } else if (pokemonActual.equals("Squirtle")) {
+                texto.setText(((Squirtle) pokemon).atacarBurbuja());
+            }
         });
 
         boton3.addActionListener(e -> {
-            texto.setText(pikachu.atacarPunioTrueno());
+
+            if (pokemonActual.equals("Pikachu")) {
+                texto.setText(((Pikachu) pokemon).atacarPunioTrueno());
+
+            } else if (pokemonActual.equals("Bulbasaur")) {
+
+            } else if (pokemonActual.equals("Charmander")) {
+                texto.setText(((Charmander) pokemon).atacarMordisco());
+
+            } else if (pokemonActual.equals("Squirtle")) {
+                texto.setText(((Squirtle) pokemon).atacarHidrobomba());
+            }
+        });
+
+        boton4.addActionListener(e -> {
+
+            if (pokemonActual.equals("Pikachu")) {
+
+            } else if (pokemonActual.equals("Bulbasaur")) {
+
+            } else if (pokemonActual.equals("Charmander")) {
+                texto.setText(((Charmander) pokemon).atacarLanzallamas());
+
+            } else if (pokemonActual.equals("Squirtle")) {
+                texto.setText(((Squirtle) pokemon).atacarPlacaje());
+            }
         });
 
         boton5.addActionListener(e -> {
+
             CambiarPokemonWindow selector =
                 new CambiarPokemonWindow();
 
             selector.setVisible(true);
         });
 
-        // Agregar al panel
         panel.add(boton1);
         panel.add(boton2);
         panel.add(boton3);
@@ -144,8 +200,6 @@ public class MainWindow {
         ventana.setVisible(true);
     }
 
-
-    // Cambiar Pokémon
     public static void cambiarPokemon(String nombre, String rutaImagen) {
 
         pokemonActual = nombre;
@@ -154,7 +208,48 @@ public class MainWindow {
             MainWindow.class.getResource(rutaImagen)
         ).getImage();
 
-        // Actualizar la pantalla
+        if (nombre.equals("Pikachu")) {
+            pokemon = new Pikachu();
+
+        } else if (nombre.equals("Bulbasaur")) {
+            pokemon = new Bulbasaur();
+
+        } else if (nombre.equals("Charmander")) {
+            pokemon = new Charmander();
+
+        } else if (nombre.equals("Squirtle")) {
+            pokemon = new Squirtle();
+        }
+
+        if (nombre.equals("Pikachu")) {
+
+            boton1.setText("Placaje");
+            boton2.setText("Impactrueno");
+            boton3.setText("Puño Trueno");
+            boton4.setText("-");
+
+        } else if (nombre.equals("Squirtle")) {
+
+            boton1.setText("Mordisco");
+            boton2.setText("Burbuja");
+            boton3.setText("Hidrobomba");
+            boton4.setText("Placaje");
+
+        } else if (nombre.equals("Charmander")) {
+
+            boton1.setText("Arañazo");
+            boton2.setText("Ascuas");
+            boton3.setText("Mordisco");
+            boton4.setText("Lanzallamas");
+
+        } else if (nombre.equals("Bulbasaur")) {
+
+            boton1.setText("Placaje");
+            boton2.setText("Drenaje");
+            boton3.setText("-");
+            boton4.setText("-");
+        }
+
         panel.repaint();
     }
 }
